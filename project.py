@@ -18,7 +18,6 @@ V_ZERO = V_REF / 2  # Adjusted later during calibration if necessary
 # Web Server Configuration
 ssid = 'ESP32-AP'
 password = '12345678'
-
 def calibrate_zero():
     # Calibrate zero current for ACS712
     total = 0
