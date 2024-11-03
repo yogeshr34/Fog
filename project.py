@@ -10,7 +10,6 @@ R1 = 30000.0  # Resistor R1 in ohms (30k)
 R2 = 7500.0   # Resistor R2 in ohms (7.5k)
 V_REF = 3.3   # Reference voltage for ADC (3.3V for ESP32)
 ADC_MAX_VALUE = 4095  # 12-bit ADC
-
 # Current Sensor Configuration (ACS712)
 current_adc_pin = ADC(Pin(33))  # Adjust GPIO pin as needed
 current_adc_pin.atten(ADC.ATTN_11DB)
