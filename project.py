@@ -54,6 +54,7 @@ def web_page():
     voltage = read_voltage()
     current = read_current()
     html = f"""
+    
     <!DOCTYPE html>
     <html>
     <head>
