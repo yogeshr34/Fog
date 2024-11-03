@@ -53,7 +53,6 @@ print('Access Point established with IP:', ap.ifconfig()[0])
 def web_page():
     voltage = read_voltage()
     current = read_current()
-
     html = f"""
     <!DOCTYPE html>
     <html>
