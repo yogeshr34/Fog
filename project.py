@@ -29,7 +29,6 @@ def calibrate_zero():
     return (zero_adc_value / ADC_MAX_VALUE) * V_REF
 # Set the midpoint voltage based on calibration
 V_ZERO = calibrate_zero()
-
 def read_voltage():
     # Read and calculate voltage
     adc_value = voltage_adc_pin.read()
