@@ -45,7 +45,6 @@ def read_current():
 ap = network.WLAN(network.AP_IF)
 ap.config(essid=ssid, password=password)
 ap.active(True)
-
 # Wait for connection
 while not ap.active():
     pass
