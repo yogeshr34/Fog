@@ -6,7 +6,6 @@ import time
 # Voltage Sensor Configuration
 voltage_adc_pin = ADC(Pin(34))  # Adjust GPIO pin as needed
 voltage_adc_pin.atten(ADC.ATTN_11DB)  # Set attenuation to read up to 3.3V
-
 # Voltage Divider Resistor Values
 R1 = 30000.0  # Resistor R1 in ohms (30k)
 R2 = 7500.0   # Resistor R2 in ohms (7.5k)
