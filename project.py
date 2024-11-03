@@ -41,7 +41,6 @@ def read_current():
     voltage = (adc_value / ADC_MAX_VALUE) * V_REF
     current = (voltage - V_ZERO) * 1000 / SENSITIVITY  # Convert mV to A
     return current
-
 # Initialize Access Point
 ap = network.WLAN(network.AP_IF)
 ap.config(essid=ssid, password=password)
