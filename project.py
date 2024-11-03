@@ -35,7 +35,6 @@ def read_voltage():
     adc_voltage = (adc_value * V_REF) / ADC_MAX_VALUE
     in_voltage = adc_voltage / (R2 / (R1 + R2))
     return in_voltage
-
 def read_current():
     # Read and calculate current
     adc_value = current_adc_pin.read()
