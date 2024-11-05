@@ -85,7 +85,7 @@ def web_page():
 
 # Start Server
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind(('', 80))
+s.bind(('', 8080))
 s.listen(5)
 
 print("Web server started. Connect to the AP and visit:", ap.ifconfig()[0])
