@@ -13,7 +13,7 @@ ADC_MAX_VALUE = 4095
 current_adc_pin = ADC(Pin(33))  
 current_adc_pin.atten(ADC.ATTN_11DB)
 SENSITIVITY = 185  
-V_ZERO = V_REF / 2  # Adjusted later during calibration if necessary
+V_ZERO = V_REF / 2  
 
 # Web Server Configuration
 ssid = 'ESP32-AP'
