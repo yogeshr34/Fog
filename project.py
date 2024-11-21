@@ -5,7 +5,7 @@ import time
 import _thread 
 voltage_adc_pin = ADC(Pin(34)) 
 voltage_adc_pin.atten(ADC.ATTN_11DB)  
-R1 = 30000.0  # Resistor R1 in ohms (30k)
+R1 = 30000.0 
 R2 = 7500.0   # Resistor R2 in ohms (7.5k)
 V_REF = 3.3   # Reference voltage for ADC (3.3V for ESP32)
 ADC_MAX_VALUE = 4095  # 12-bit ADC
