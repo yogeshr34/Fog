@@ -91,5 +91,4 @@ print("Web server started. Connect to the AP and visit:", ap.ifconfig()[0])
 while True:
     conn, addr = s.accept()
     print("Connection from", addr)
-    # Start a new thread to handle the client without blocking the server
     _thread.start_new_thread(handle_client, (conn,))
