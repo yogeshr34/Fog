@@ -103,24 +103,14 @@ def handle_client(conn):
 
 # Start Server
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind(('', 8080))
+s.listen(5)
 
-# Avoid Address Already in Use Error (EADDRINUSE)
-s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+print("Web server started. Connect to the AP and visit:", ap.ifconfig()[0])
 
-try:
-    s.bind(('', 8080))
-    s.listen(5)
-    print("Web server started. Connect to the AP and visit:", ap.ifconfig()[0])
-
-    # Main loop to accept multiple clients
-    while True:
-        conn, addr = s.accept()
-        print("Connection from", addr)
-        # Start a new thread to handle the client without blocking the server
-        _thread.start_new_thread(handle_client, (conn,))
-
-except OSError as e:
-    print("Error binding socket:", e)
-
-finally:
-    s.close()
+# Main loop to accept multiple clients
+while True:
+    conn, addr = s.accept()
+    print("Connection from", addr)
+    # Start a new thread to handle the client without blocking the server
+    _thread.start_new_thread(handle_client, (conn,))
