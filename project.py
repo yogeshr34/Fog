@@ -47,8 +47,6 @@ while not ap.active():
     pass
 
 print('Access Point established with IP:', ap.ifconfig()[0])
-
-# Set up Web Server
 def web_page():
     voltage = read_voltage()
     current = read_current()
