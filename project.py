@@ -35,7 +35,6 @@ def read_voltage():
     return in_voltage
 
 def read_current():
-    # Read and calculate current
     adc_value = current_adc_pin.read()
     voltage = (adc_value / ADC_MAX_VALUE) * V_REF
     current = (voltage - V_ZERO) * 1000 / SENSITIVITY  # Convert mV to A
