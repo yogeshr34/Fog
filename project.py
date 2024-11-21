@@ -76,8 +76,6 @@ def web_page():
         </html>
     """
     return html
-
-# Function to handle each client connection
 def handle_client(conn):
     print("Got a connection")
     request = conn.recv(1024)
