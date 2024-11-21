@@ -15,7 +15,6 @@ current_adc_pin.atten(ADC.ATTN_11DB)
 SENSITIVITY = 185  
 V_ZERO = V_REF / 2  
 
-# Web Server Configuration
 ssid = 'ESP32-AP'
 password = '12345678'
 
