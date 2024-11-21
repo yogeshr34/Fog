@@ -2,23 +2,29 @@ from machine import Pin, ADC
 import network
 import socket
 import time
-import _thread 
-voltage_adc_pin = ADC(Pin(34)) 
-voltage_adc_pin.atten(ADC.ATTN_11DB)  
-R1 = 30000.0 
-R2 = 7500.0   
-V_REF = 3.3   
-ADC_MAX_VALUE = 4095  
+import _thread  # Import threading module to handle multiple clients
 
-current_adc_pin = ADC(Pin(33))  
+# Voltage Sensor Configuration
+voltage_adc_pin = ADC(Pin(34))  # Adjust GPIO pin as needed
+voltage_adc_pin.atten(ADC.ATTN_11DB)  # Set attenuation to read up to 3.3V
+# Voltage Divider Resistor Values
+R1 = 30000.0  # Resistor R1 in ohms (30k)
+R2 = 7500.0   # Resistor R2 in ohms (7.5k)
+V_REF = 3.3   # Reference voltage for ADC (3.3V for ESP32)
+ADC_MAX_VALUE = 4095  # 12-bit ADC
+
+# Current Sensor Configuration (ACS712)
+current_adc_pin = ADC(Pin(33))  # Adjust GPIO pin as needed
 current_adc_pin.atten(ADC.ATTN_11DB)
-SENSITIVITY = 185  
-V_ZERO = V_REF / 2  
+SENSITIVITY = 185  # Sensitivity in mV per A for ACS712-5A (use 100 for 20A, 66 for 30A)
+V_ZERO = V_REF / 2  # Adjusted later during calibration if necessary
 
+# Web Server Configuration
 ssid = 'ESP32-AP'
 password = '12345678'
 
 def calibrate_zero():
+    # Calibrate zero current for ACS712
     total = 0
     samples = 100
     for _ in range(samples):
@@ -26,27 +32,36 @@ def calibrate_zero():
         time.sleep(0.01)
     zero_adc_value = total / samples
     return (zero_adc_value / ADC_MAX_VALUE) * V_REF
+
+# Set the midpoint voltage based on calibration
 V_ZERO = calibrate_zero()
 
 def read_voltage():
+    # Read and calculate voltage
     adc_value = voltage_adc_pin.read()
     adc_voltage = (adc_value * V_REF) / ADC_MAX_VALUE
     in_voltage = adc_voltage / (R2 / (R1 + R2))
     return in_voltage
 
 def read_current():
+    # Read and calculate current
     adc_value = current_adc_pin.read()
     voltage = (adc_value / ADC_MAX_VALUE) * V_REF
     current = (voltage - V_ZERO) * 1000 / SENSITIVITY  # Convert mV to A
     return current
+
+# Initialize Access Point
 ap = network.WLAN(network.AP_IF)
 ap.config(essid=ssid, password=password)
 ap.active(True)
 
+# Wait for connection
 while not ap.active():
     pass
 
 print('Access Point established with IP:', ap.ifconfig()[0])
+
+# Set up Web Server
 def web_page():
     voltage = read_voltage()
     current = read_current()
@@ -76,6 +91,8 @@ def web_page():
         </html>
     """
     return html
+
+# Function to handle each client connection
 def handle_client(conn):
     print("Got a connection")
     request = conn.recv(1024)
@@ -83,12 +100,27 @@ def handle_client(conn):
     conn.send('HTTP/1.1 200 OK\nContent-Type: text/html\nConnection: close\n\n')
     conn.sendall(response)
     conn.close()
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind(('', 8080))
-s.listen(5)
 
-print("Web server started. Connect to the AP and visit:", ap.ifconfig()[0])
-while True:
-    conn, addr = s.accept()
-    print("Connection from", addr)
-    _thread.start_new_thread(handle_client, (conn,))
+# Start Server
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Avoid Address Already in Use Error (EADDRINUSE)
+s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+try:
+    s.bind(('', 8080))
+    s.listen(5)
+    print("Web server started. Connect to the AP and visit:", ap.ifconfig()[0])
+
+    # Main loop to accept multiple clients
+    while True:
+        conn, addr = s.accept()
+        print("Connection from", addr)
+        # Start a new thread to handle the client without blocking the server
+        _thread.start_new_thread(handle_client, (conn,))
+
+except OSError as e:
+    print("Error binding socket:", e)
+
+finally:
+    s.close()
