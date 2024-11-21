@@ -8,7 +8,7 @@ voltage_adc_pin.atten(ADC.ATTN_11DB)
 R1 = 30000.0 
 R2 = 7500.0   
 V_REF = 3.3   
-ADC_MAX_VALUE = 4095  # 12-bit ADC
+ADC_MAX_VALUE = 4095  
 
 # Current Sensor Configuration (ACS712)
 current_adc_pin = ADC(Pin(33))  # Adjust GPIO pin as needed
