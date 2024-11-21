@@ -3,8 +3,6 @@ import network
 import socket
 import time
 import _thread 
-
-# Voltage Sensor Configuration
 voltage_adc_pin = ADC(Pin(34))  # Adjust GPIO pin as needed
 voltage_adc_pin.atten(ADC.ATTN_11DB)  # Set attenuation to read up to 3.3V
 # Voltage Divider Resistor Values
