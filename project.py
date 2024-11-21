@@ -83,15 +83,11 @@ def handle_client(conn):
     conn.send('HTTP/1.1 200 OK\nContent-Type: text/html\nConnection: close\n\n')
     conn.sendall(response)
     conn.close()
-
-# Start Server
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind(('', 8080))
 s.listen(5)
 
 print("Web server started. Connect to the AP and visit:", ap.ifconfig()[0])
-
-# Main loop to accept multiple clients
 while True:
     conn, addr = s.accept()
     print("Connection from", addr)
