@@ -2,7 +2,7 @@ from machine import Pin, ADC
 import network
 import socket
 import time
-import _thread  # Import threading module to handle multiple clients
+import _thread 
 
 # Voltage Sensor Configuration
 voltage_adc_pin = ADC(Pin(34))  # Adjust GPIO pin as needed
