@@ -29,7 +29,6 @@ def calibrate_zero():
 V_ZERO = calibrate_zero()
 
 def read_voltage():
-    # Read and calculate voltage
     adc_value = voltage_adc_pin.read()
     adc_voltage = (adc_value * V_REF) / ADC_MAX_VALUE
     in_voltage = adc_voltage / (R2 / (R1 + R2))
