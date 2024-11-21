@@ -19,7 +19,6 @@ ssid = 'ESP32-AP'
 password = '12345678'
 
 def calibrate_zero():
-    # Calibrate zero current for ACS712
     total = 0
     samples = 100
     for _ in range(samples):
